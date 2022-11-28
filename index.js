@@ -21,10 +21,19 @@ async function run() {
       const users = await cursor.toArray();
       res.send(users);
     });
-  } finally {
-    // Ensures that the client will close when you finish/error
-    // await client.close();
-  }
+    app.post('/users/:email', async(req, res) => {
+      const userEmail = req.params.email;
+      const userDetail = req.body;
+      const userEmailFind = await userCollection.findOne({email:  userEmail })
+      console.log(userEmailFind)
+      if(userEmailFind?.email !== userEmail){
+        const result = userCollection.insertOne(userDetail)
+        res.send(result);
+      }else{
+        res.send('Not Updated')
+      }
+    })
+  } finally {}
 }
 run().catch(console.dir);
 
