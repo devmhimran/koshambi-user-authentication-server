@@ -25,12 +25,11 @@ async function run() {
       const userEmail = req.params.email;
       const userDetail = req.body;
       const userEmailFind = await userCollection.findOne({email:  userEmail })
-      console.log(userEmailFind)
       if(userEmailFind?.email !== userEmail){
         const result = userCollection.insertOne(userDetail)
         res.send(result);
       }else{
-        res.send('Not Updated')
+        res.send('Not Added')
       }
     })
   } finally {}
